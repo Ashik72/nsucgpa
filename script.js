@@ -63,9 +63,13 @@ var calCulateCGPA = function(gpa = null, credit = null, totalCredit = null, tota
 
   	$(".theDetail .form-control.credit").each(function() {
 
-  			console.log($(this));
+  		theEnteredCredit = Math.abs(parseFloat($(this).val()));
 
-  		totalCredit += Math.abs(parseFloat($(this).val()));
+  		if (theEnteredCredit == null || isNaN(theEnteredCredit))
+  			theEnteredCredit = 0;
+
+
+  		totalCredit += theEnteredCredit;
 
 
   	})
@@ -74,20 +78,30 @@ var calCulateCGPA = function(gpa = null, credit = null, totalCredit = null, tota
 
   	$(".theDetail .form-control.gpa").each(function() {
 
-  		console.log($(this).val());
-
   		totalGpa += Math.abs(parseFloat($(this).val()));
-  		totalScore += Math.abs(parseFloat($(this).parent().children('.credit').val())) * Math.abs(parseFloat($(this).val()));
+
+  		theGPA = Math.abs(parseFloat($(this).val()));
+  		theCredit = Math.abs(parseFloat($(this).parent().children('.credit').val()));
+
+  		if (theGPA == null || isNaN(theGPA))
+  			theGPA = 1;
+
+  		if (theCredit == null || isNaN(theCredit))
+  			theCredit = 0;
+
+
+
+  		totalScore += theCredit * theGPA;
 
   	})
 
-  	console.log("Credit: " + totalCredit);
+/*  	console.log("Credit: " + totalCredit);
   	console.log('<br>')
  	console.log("CGPA: " + totalGpa)
   	console.log('<br>')
  	console.log("Score: " + totalScore)
   	console.log('<br>')
-
+*/
   	var cgpa_latest = (totalScore/totalCredit).toFixed(2);
 
   	$(".theCGPA h1").text(cgpa_latest);
